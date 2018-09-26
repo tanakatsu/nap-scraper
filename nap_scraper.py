@@ -37,10 +37,10 @@ class NapScraper(object):
         return result
 
 
-    def get_reviews(self, area, campsite_id, max_count=None, per_page=10):
+    def get_reviews(self, area, campsite_id, max_cnt=None, per_page=10):
         review_cnt = self.__get_total_review_count(area, campsite_id)
-        if max_count:
-            fetch_cnt = min(review_cnt, max_count)
+        if max_cnt:
+            fetch_cnt = min(review_cnt, max_cnt)
         else:
             fetch_cnt = review_cnt
 
@@ -82,4 +82,4 @@ class NapScraper(object):
 if __name__ == "__main__":
     scraper = NapScraper()
     # print(scraper.keyword_search('バウアーハウス'))
-    print(scraper.get_reviews("kanagawa", 11677, max_count=10))
+    print(scraper.get_reviews("kanagawa", 11677, max_cnt=10))
