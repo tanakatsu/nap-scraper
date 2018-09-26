@@ -9,6 +9,10 @@ from tqdm import tqdm
 class NapScraper(object):
     SITE_URL = 'https://www.nap-camp.com'
 
+    def __init__(self, interval=1):
+        self.interval = interval
+
+
     def keyword_search(self, keyword):
         endpoint = '{}/list'.format(self.SITE_URL)
         params = {
@@ -43,11 +47,13 @@ class NapScraper(object):
         review_urls = []
         for i in tqdm(range(0, fetch_cnt, per_page), desc="collecting review urls"):
             review_urls.extend(self.__get_review_urls(area, campsite_id, i, per_page))
+            sleep(self.interval)
 
         reviews = []
         for url in tqdm(review_urls, desc="getting reviews"):
             review = self.__get_review(url)
             reviews.append(review)
+            sleep(self.interval)
 
         return reviews
 
