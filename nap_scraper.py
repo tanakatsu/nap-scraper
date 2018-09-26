@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from util import getPage
 import requests
 from tqdm import tqdm
+from time import sleep
 
 
 class NapScraper(object):
