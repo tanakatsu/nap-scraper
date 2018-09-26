@@ -7,7 +7,7 @@ import os
 import argparse
 
 
-def dump_reviews(area, campsite_id, output_file, fmt='csv', max_cnt=None, interval=1):
+def get_reviews(area, campsite_id, output_file, fmt='csv', max_cnt=None, interval=1):
     scraper = NapScraper(interval=interval)
     reviews = scraper.get_reviews(area, campsite_id, max_cnt=max_cnt)
 
@@ -43,5 +43,5 @@ if __name__ == "__main__":
 
     fmt = os.path.splitext(output_filename)[-1].replace('.', '')
 
-    dump_reviews(area, campsite_id, output_filename,
-                 fmt=fmt, max_cnt=max_cnt, interval=interval)
+    get_reviews(area, campsite_id, output_filename,
+                fmt=fmt, max_cnt=max_cnt, interval=interval)
