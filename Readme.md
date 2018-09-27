@@ -1,6 +1,6 @@
 ## Nap web scraper
 
-This is a scaper of Nap (www.nap-camp.com) - camping portal site -.
+This is a scaper for Nap (www.nap-camp.com) - camping portal site -.
 
 ### Functions
 
