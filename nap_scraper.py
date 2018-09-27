@@ -50,6 +50,7 @@ class NapScraper(object):
             review_urls.extend(self.__get_review_urls(area, campsite_id, i, per_page))
             sleep(self.interval)
 
+        review_urls = review_urls[:fetch_cnt]
         reviews = []
         for url in tqdm(review_urls, desc="getting reviews"):
             review = self.__get_review(url)
@@ -57,7 +58,6 @@ class NapScraper(object):
             sleep(self.interval)
 
         return reviews
-
 
     def __get_total_review_count(self, area, campsite_id):
         html = getPage("{}/{}/{}/review".format(self.SITE_URL, area, campsite_id))
