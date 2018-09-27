@@ -15,6 +15,7 @@ def get_reviews(area, campsite_id, output_file, fmt='csv', max_cnt=None, interva
         pickle.dump(reviews, open(output_file, "wb"))
     elif fmt == 'csv':
         reviews_flatten = [text for review in reviews for text in review]
+        reviews_flatten = [x.rstrip() for x in reviews_flatten]
         df = pd.DataFrame(reviews_flatten)
         df.to_csv(output_file, index=False, header=False)
     else:
