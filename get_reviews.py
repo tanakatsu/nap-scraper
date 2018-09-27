@@ -40,7 +40,7 @@ if __name__ == "__main__":
     if args.output:
         output_filename = args.output
     else:
-        output_filename = "{area}_{campsite_id}_reviews.csv"
+        output_filename = "{area}_{campsite_id}_reviews.csv".format(area=area, campsite_id=campsite_id)
 
     fmt = os.path.splitext(output_filename)[-1].replace('.', '')
 
