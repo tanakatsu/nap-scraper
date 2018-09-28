@@ -14,9 +14,13 @@ def get_reviews(area, campsite_id, output_file, fmt='csv', max_cnt=None, interva
     if fmt == 'pkl':
         pickle.dump(reviews, open(output_file, "wb"))
     elif fmt == 'csv':
-        reviews_flatten = [text for review in reviews for text in review]
-        reviews_flatten = [x.rstrip() for x in reviews_flatten]
-        df = pd.DataFrame(reviews_flatten)
+        data = []
+        for review in reviews:
+            id = review['id']
+            comments = review['review']
+            for comment in comments:
+                data.append([id, comment])
+        df = pd.DataFrame(data)
         df.to_csv(output_file, index=False, header=False)
     else:
         raise ValueError("unknown output format")

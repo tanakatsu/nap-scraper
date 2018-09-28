@@ -45,7 +45,7 @@ def main():
     df = pd.read_csv(review_csvfile, header=None, encoding='utf-8')
     df = df.dropna()  # remove empty line
 
-    data = list(df[0].values)
+    data = list(df.iloc[:, 1].values)
 
     whole_words = []
     for review in data:

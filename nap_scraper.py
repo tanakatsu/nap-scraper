@@ -13,7 +13,6 @@ class NapScraper(object):
     def __init__(self, interval=1):
         self.interval = interval
 
-
     def keyword_search(self, keyword):
         endpoint = '{}/list'.format(self.SITE_URL)
         params = {
@@ -37,7 +36,6 @@ class NapScraper(object):
             result.append({'name': name, 'url': self.SITE_URL + url, 'area': area, 'campsite_id': campsite_id})
         return result
 
-
     def get_reviews(self, area, campsite_id, max_cnt=None, per_page=10):
         review_cnt = self.__get_total_review_count(area, campsite_id)
         if max_cnt:
@@ -54,7 +52,8 @@ class NapScraper(object):
         reviews = []
         for url in tqdm(review_urls, desc="getting reviews"):
             review = self.__get_review(url)
-            reviews.append(review)
+            review_id = int(url.split('=')[1])
+            reviews.append({'id': review_id, 'review': review})
             sleep(self.interval)
 
         return reviews
@@ -64,14 +63,12 @@ class NapScraper(object):
         soup = BeautifulSoup(html, "html.parser")
         return int(soup.select("div.review_num span[itemprop='votes']")[0].string)
 
-
     def __get_review_urls(self, area, campsite_id, index, per_page):
         html = getPage("{}/{}/{}/review/?01={}&L1={}".format(self.SITE_URL, area, campsite_id, index, per_page))
         soup = BeautifulSoup(html, "html.parser")
         links = soup.select("p.review_sentence a.more_info")
         paths = [link.get("href") for link in links]
         return [self.SITE_URL + path for path in paths]
-
 
     def __get_review(self, url):
         html = getPage(url)
