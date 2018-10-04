@@ -12,7 +12,7 @@ ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
-# Install mecab-ipadic-NEologd
+# Install mecab-ipadic-NEologd (Docker memory should be more than 3GB)
 WORKDIR /opt
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git \
   && cd mecab-ipadic-neologd \
