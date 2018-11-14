@@ -58,6 +58,55 @@ class NapScraper(object):
 
         return reviews
 
+    def get_area_list(self):
+        area_list = []
+
+        html = getPage("{}".format(self.SITE_URL))
+        soup = BeautifulSoup(html, "html.parser")
+        search_prefecture_elm = soup.find('div', id='main_search_prefecture')
+        elms = search_prefecture_elm.find_all('dd')
+        for elm in elms:
+            links = elm.find_all('a')
+            for link in links:
+                area = link['href'].split('/')[1]
+                area_list.append(area)
+        # print(len(area_list))
+        return area_list
+
+
+    def get_campsite_list(self, area, max_cnt=None, per_page=10):
+        start_no = 0
+        campsite_list = []
+
+        while True:
+            result = self.__get_campsite_list_from_page(area, start_no, per_page)
+            start_no += per_page
+
+            if len(result) == 0:
+                break
+            campsite_list.extend(result)
+
+            if max_cnt and len(campsite_list) >= max_cnt:
+                campsite_list = campsite_list[:max_cnt]
+                break
+
+        return campsite_list
+
+
+    def __get_campsite_list_from_page(self, area, start_no, per_page):
+        html = getPage("{}/{}/list?OFFSET={}&LIMIT={}&display_order=21&".format(self.SITE_URL, area, start_no, per_page))
+        soup = BeautifulSoup(html, "html.parser")
+        campsite_elms = soup.select("div.block_campsite_list div.camp_list a")
+
+        campsite_list = []
+        for elm in campsite_elms:
+            campsite_id = elm.get("href").split('/')[-2]
+            campsite_name = elm.select("h2 span.name")[0].string
+            campsite_name = campsite_name.replace('\u3000', '')
+            campsite_list.append({'id': campsite_id, 'name': campsite_name})
+        return campsite_list
+
+
     def __get_total_review_count(self, area, campsite_id):
         html = getPage("{}/{}/{}/review".format(self.SITE_URL, area, campsite_id))
         soup = BeautifulSoup(html, "html.parser")
@@ -80,4 +129,6 @@ class NapScraper(object):
 if __name__ == "__main__":
     scraper = NapScraper()
     # print(scraper.keyword_search('バウアーハウス'))
-    print(scraper.get_reviews("kanagawa", 11677, max_cnt=10))
+    # print(scraper.get_reviews("kanagawa", 11677, max_cnt=10))
+    print(scraper.get_campsite_list("kanagawa"))
+    # print(scraper.get_area_list())
