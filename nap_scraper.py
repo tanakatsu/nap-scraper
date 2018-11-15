@@ -104,7 +104,7 @@ class NapScraper(object):
             campsite_id = elm.get("href").split('/')[-2]
             campsite_name = elm.select("h2 span.name")[0].string
             campsite_name = campsite_name.replace('\u3000', '')
-            campsite_list.append({'id': campsite_id, 'name': campsite_name})
+            campsite_list.append({'id': campsite_id, 'name': campsite_name, 'area': area})
         return campsite_list
 
 
