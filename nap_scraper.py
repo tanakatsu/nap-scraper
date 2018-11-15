@@ -89,6 +89,7 @@ class NapScraper(object):
             if max_cnt and len(campsite_list) >= max_cnt:
                 campsite_list = campsite_list[:max_cnt]
                 break
+            sleep(self.interval)
 
         return campsite_list
 
