@@ -18,8 +18,7 @@ def get_reviews(area, campsite_id, output_file, fmt='csv', max_cnt=None, interva
         for review in reviews:
             id = review['id']
             comments = review['review']
-            for comment in comments:
-                data.append([id, comment])
+            data.append([id, comments])
         df = pd.DataFrame(data)
         df.to_csv(output_file, index=False, header=False)
     else:

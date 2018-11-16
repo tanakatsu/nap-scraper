@@ -73,7 +73,6 @@ class NapScraper(object):
         # print(len(area_list))
         return area_list
 
-
     def get_campsite_list(self, area, max_cnt=None, per_page=10):
         start_no = 0
         campsite_list = []
@@ -93,7 +92,6 @@ class NapScraper(object):
 
         return campsite_list
 
-
     def __get_campsite_list_from_page(self, area, start_no, per_page):
         html = getPage("{}/{}/list?OFFSET={}&LIMIT={}&display_order=21&".format(self.SITE_URL, area, start_no, per_page))
         soup = BeautifulSoup(html, "html.parser")
@@ -107,14 +105,13 @@ class NapScraper(object):
             campsite_list.append({'id': campsite_id, 'name': campsite_name, 'area': area})
         return campsite_list
 
-
     def __get_total_review_count(self, area, campsite_id):
         html = getPage("{}/{}/{}/review".format(self.SITE_URL, area, campsite_id))
         soup = BeautifulSoup(html, "html.parser")
         return int(soup.select("div.review_num span[itemprop='votes']")[0].string)
 
     def __get_review_urls(self, area, campsite_id, index, per_page):
-        html = getPage("{}/{}/{}/review/?01={}&L1={}".format(self.SITE_URL, area, campsite_id, index, per_page))
+        html = getPage("{}/{}/{}/review/?O1={}&L1={}&".format(self.SITE_URL, area, campsite_id, index, per_page))
         soup = BeautifulSoup(html, "html.parser")
         links = soup.select("p.review_sentence a.more_info")
         paths = [link.get("href") for link in links]
@@ -124,7 +121,13 @@ class NapScraper(object):
         html = getPage(url)
         soup = BeautifulSoup(html, "html.parser")
         dds = soup.select("div.review_text dl dd")
-        return [d.text.replace('\r\n', '').replace('\n', '') for d in dds]
+        if len(dds) > 0:
+            review = ''.join([d.text.replace('\r\n', '').replace('\n', '') for d in dds])
+        else:
+            sentences = soup.select("p.review_sentence")[0]
+            review = sentences.text.strip().replace('\r', '').replace('\n', '')
+        return review
+
 
 
 if __name__ == "__main__":
