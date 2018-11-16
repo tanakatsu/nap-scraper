@@ -20,7 +20,7 @@ def get_campsite_list(output_file, interval=1):
         area = campsite['area']
         id = campsite['id']
         name = campsite['name']
-        data.append([area, name, id])
+        data.append([area, id, name])
 
     df = pd.DataFrame(data, columns=["area", "id", "name"])
     df.to_csv(output_file, index=False, header=True)
