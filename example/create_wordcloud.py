@@ -42,7 +42,8 @@ def main():
     args = parser.parse_args()
 
     review_csvfile = args.csvfile
-    df = pd.read_csv(review_csvfile, header=None, encoding='utf-8')
+    #df = pd.read_csv(review_csvfile, header=None, encoding='utf-8')
+    df = pd.read_csv(review_csvfile, encoding='utf-8')
     df = df.dropna()  # remove empty line
 
     data = list(df.iloc[:, 1].values)

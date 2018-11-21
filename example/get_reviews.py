@@ -19,8 +19,8 @@ def get_reviews(area, campsite_id, output_file, fmt='csv', max_cnt=None, interva
             id = review['id']
             comments = review['review']
             data.append([id, comments])
-        df = pd.DataFrame(data)
-        df.to_csv(output_file, index=False, header=False)
+        df = pd.DataFrame(data, columns=['review_id', 'text'])
+        df.to_csv(output_file, index=False)
     else:
         raise ValueError("unknown output format")
 
