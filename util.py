@@ -5,7 +5,7 @@ import requests
 
 def getPage(url):
     res = requests.get(url)
-    res.encoding = res.apparent_encoding
+    # res.encoding = res.apparent_encoding
+    res.encoding = 'utf-8'
     html = res.text
-    # print(res.encoding)
     return html
